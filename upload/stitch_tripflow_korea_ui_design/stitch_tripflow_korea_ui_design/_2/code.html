@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f8f9ff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 0.5rem);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { 'colors': { 'on-primary-container': '#7c839b', 'surface-container-high': '#dce9ff', 'secondary-fixed': '#89f5e7', 'surface-container-low': '#eff4ff', 'on-tertiary-fixed': '#2a1700', 'outline-variant': '#c6c6cd', 'error': '#ba1a1a', 'on-primary-fixed-variant': '#3f465c', 'on-secondary-fixed': '#00201d', 'surface-variant': '#d3e4fe', 'tertiary-fixed': '#ffddb8', 'surface-container-lowest': '#ffffff', 'on-surface': '#0b1c30', 'surface-container-highest': '#d3e4fe', 'on-secondary': '#ffffff', 'on-tertiary-fixed-variant': '#653e00', 'on-primary': '#ffffff', 'surface-dim': '#cbdbf5', 'on-secondary-container': '#006f66', 'on-tertiary': '#ffffff', 'on-error': '#ffffff', 'on-secondary-fixed-variant': '#005049', 'surface': '#f8f9ff', 'surface-bright': '#f8f9ff', 'primary-fixed-dim': '#bec6e0', 'on-tertiary-container': '#b87500', 'background': '#f8f9ff', 'error-container': '#ffdad6', 'primary': '#000000', 'secondary-container': '#86f2e4', 'inverse-on-surface': '#eaf1ff', 'surface-tint': '#565e74', 'on-primary-fixed': '#131b2e', 'secondary': '#006a61', 'on-surface-variant': '#45464d', 'inverse-primary': '#bec6e0', 'inverse-surface': '#213145', 'on-error-container': '#93000a', 'tertiary': '#000000', 'primary-container': '#131b2e', 'outline': '#76777d', 'tertiary-container': '#2a1700', 'tertiary-fixed-dim': '#ffb95f', 'on-background': '#0b1c30', 'secondary-fixed-dim': '#6bd8cb', 'surface-container': '#e5eeff', 'primary-fixed': '#dae2fd' }, 'borderRadius': { 'DEFAULT': '0.25rem', 'lg': '0.5rem', 'xl': '0.75rem', 'full': '9999px' }, 'spacing': { 'space-lg': '1.5rem', 'space-sm': '0.5rem', 'gutter': '1rem', 'margin': '1rem', 'space-xl': '2rem', 'space-xs': '0.25rem', 'space-md': '1rem' }, 'fontFamily': { 'label-sm': ['Manrope'], 'label-md': ['Manrope'], 'body-sm': ['Manrope'], 'title-md': ['Plus Jakarta Sans'], 'body-lg': ['Manrope'], 'headline-lg': ['Plus Jakarta Sans'], 'body-md': ['Manrope'], 'display-lg': ['Plus Jakarta Sans'], 'headline-sm': ['Plus Jakarta Sans'], 'headline-md': ['Plus Jakarta Sans'] }, 'fontSize': { 'label-sm': ['10px', { 'lineHeight': '12px', 'letterSpacing': '0.04em', 'fontWeight': '700' }], 'label-md': ['12px', { 'lineHeight': '16px', 'letterSpacing': '0.02em', 'fontWeight': '600' }], 'body-sm': ['13px', { 'lineHeight': '18px', 'letterSpacing': '0em', 'fontWeight': '500' }], 'title-md': ['16px', { 'lineHeight': '22px', 'letterSpacing': '-0.01em', 'fontWeight': '600' }], 'body-lg': ['17px', { 'lineHeight': '24px', 'letterSpacing': '-0.005em', 'fontWeight': '400' }], 'headline-lg': ['28px', { 'lineHeight': '34px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'body-md': ['15px', { 'lineHeight': '21px', 'letterSpacing': '0em', 'fontWeight': '400' }], 'display-lg': ['34px', { 'lineHeight': '41px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'headline-sm': ['18px', { 'lineHeight': '24px', 'letterSpacing': '-0.01em', 'fontWeight': '600' }], 'headline-md': ['22px', { 'lineHeight': '28px', 'letterSpacing': '-0.015em', 'fontWeight': '600' }] } } } };</script></head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen antialiased selection:bg-secondary-container"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(11,28,48,0.04)] pt-safe"><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between w-full"><div class="flex items-center gap-space-sm"><img alt="TripFlow Korea Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD87QV7MfN0IHkXzTv8cfIhX_gy_d-gF9pwdNuFNw5Wz6mSytJFylsLC3aKg3YpIds0CCTBXDD_6Xn0Xb-204sRdqIPtmfJRz5NZy_XlhXdGwNZPE94xENXdTOmC033he9O3Af04yjHCImRAcozneha6sqv2lJR1Hh6CfsHwRkQRCcH4_QYNPfe-ZlGyqeRy9qkLslTqm22qZbBzHnmcGB5LFxMJv4fvOzLkctZB2FJTPVoTs0Cndti"/><div class="flex flex-col"><span class="font-title-md text-title-md text-on-surface leading-tight tracking-tight">TripFlow Korea</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">No-Traffic Concierge</span></div></div><div class="flex items-center gap-space-sm"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed shadow-[0_1px_4px_rgba(42,23,0,0.08)]"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span><span class="font-label-sm text-label-sm font-bold">추석 연휴 특수 모드</span></div><button aria-label="Profile" class="w-11 h-11 rounded-full flex items-center justify-center p-0.5 hover:opacity-90 transition-opacity" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdicPT1nven-APX83yWLnISMxJmnXOu8TgC_fUujdn5266x0aSBuz5GF-fQe2LKdFUmuAPwx6uiIBj0zmEVmxIC9bOhC80mbhldkKntHeLuOAP44xY-dWscvKgWesmAKYq7S7Ggb5onLL5pyEEUqcDHAI3SMQQ7Vmo8nC_hiTQeUGmJTzXRq-wBulQvnbnP6BDkfLF75QXHGoULE6sJ59cHQG38nSYDX5m0iGeIxGk3LZsqg0s1MOa"/></button></div></div><div class="flex items-center justify-between gap-space-sm"><div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors cursor-pointer"><span class="material-symbols-outlined text-[16px] text-secondary">near_me</span><span class="font-label-md text-label-md font-semibold text-on-surface">서울 출발 · Departing from Seoul</span><span class="material-symbols-outlined text-[14px] text-on-surface-variant">expand_more</span></div><div class="flex items-center gap-1 text-on-surface-variant"><span class="font-label-md text-label-md font-bold text-on-surface tracking-tight">Smart Itinerary</span></div></div></div></header><main class="flex flex-col relative w-full pt-28 pb-28 bg-surface"><div class="flex flex-col w-full px-margin gap-space-lg">
+<!-- 1. Route Selection Bar & Executive Context Header -->
+<section class="flex flex-col gap-space-sm pt-space-xs">
+<!-- Route Pill & Traffic Bypass Indicator -->
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-secondary">explore</span>
+<span class="font-label-md text-label-md font-bold tracking-tight">국도 44·46호선 (양평 ➔ 홍천 ➔ 인제 ➔ 속초)</span>
+</div>
+<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+<span class="font-label-sm text-label-sm font-bold">정체 0구간 우회로</span>
+</div>
+</div>
+<!-- Main Headline & Subtitle -->
+<div class="flex flex-col gap-1 mt-1">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">
+        우회 국도에서 만나는 숨은 로컬 미식 &amp; 전망 쉼터
+      </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        고속도로 정체는 피하고, 강원의 제철 풍미와 호수 뷰를 즐기는 드라이브 쉼표
+      </p>
+</div>
+<!-- Efficiency Advantage Pill -->
+<div class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-surface-container-low text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-on-tertiary-container">tips_and_updates</span>
+<div class="flex items-center gap-1.5 min-w-0 flex-1">
+<span class="font-label-md text-label-md font-bold text-on-tertiary-container">고속도로 대비</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">식사 대기시간 45분 절약 · 넉넉한 주차 &amp; 자연 힐링</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-bold shrink-0">-45m</span>
+</div>
+</section>
+<!-- 2. Segmented Filter Pills -->
+<section class="flex items-center gap-2 overflow-x-auto pb-1 -mx-margin px-margin scrollbar-none" id="filter-pills">
+<button class="filter-btn h-9 px-4 rounded-full bg-primary text-on-primary font-label-md text-label-md shrink-0 flex items-center gap-1.5 shadow-sm transition-transform active:scale-95" data-filter="all" type="button">
+<span>전체보기</span>
+<span class="opacity-70 font-label-sm text-label-sm">(All)</span>
+</button>
+<button class="filter-btn h-9 px-4 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md shrink-0 flex items-center gap-1.5 shadow-sm transition-transform active:scale-95" data-filter="gourmet" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">restaurant</span>
+<span>강원 로컬 미식</span>
+<span class="opacity-70 font-label-sm text-label-sm">(Gourmet)</span>
+</button>
+<button class="filter-btn h-9 px-4 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md shrink-0 flex items-center gap-1.5 shadow-sm transition-transform active:scale-95" data-filter="scenic" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">landscape</span>
+<span>호수/산 전망 쉼터</span>
+</button>
+<button class="filter-btn h-9 px-4 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md shrink-0 flex items-center gap-1.5 shadow-sm transition-transform active:scale-95" data-filter="amenities" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">ev_station</span>
+<span>전기차·편의시설</span>
+</button>
+</section>
+<!-- 3. Hero Featured Spotlight Card: Lakeview Rest Stop -->
+<section class="flex flex-col rounded-xl overflow-hidden bg-surface-container-lowest shadow-md">
+<!-- Visual Photo Header -->
+<div class="relative w-full aspect-[1.79] overflow-hidden bg-surface-dim">
+<img alt="인제 38선 휴게소 소양호 전망" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV_Wdy-YLnncFQ5jR-H9CUlO-svoMqI32v0zYXqAdyZIZhX247gtCcDMXSiBHSP0mE3YqcRm9Pcp-jxvAOgIiLePAvwAXRKlWLxTCdKOprScj-7qBYKXD1pg7z1A9BCVYKEB7CfWlLtW_DvjclAUg6xMeRky0nfCbBjdyoSZQUUuOoWfDl31yOriyByuo4cpAgAIHHlCayGPj6Jg0bxxXg2YXZxgaS_yEo7K0nEbnbKJx3FLbDP8LS"/>
+<!-- Gradient Scrim for Visual Depth -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/85 via-primary-container/20 to-transparent"></div>
+<!-- Badges on Image -->
+<div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed shadow-sm backdrop-blur-md">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-sm text-label-sm font-bold tracking-tight">KTO 인증 힐링 쉼터 · 뷰 1위</span>
+</div>
+<button aria-label="즐겨찾기 보관" class="w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:bg-surface-container-lowest shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface">bookmark_add</span>
+</button>
+</div>
+<!-- Overlaid Bottom Title on Image -->
+<div class="absolute bottom-3 inset-x-3 text-on-primary flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider font-semibold">Scenic Lakeside Rest Stop</span>
+<h2 class="font-headline-sm text-headline-sm font-bold tracking-tight text-white drop-shadow-sm">
+          인제 38선 휴게소 &amp; 소양호 레이크뷰 라운지
+        </h2>
+<div class="flex items-center gap-2 text-surface-container-high font-body-sm text-body-sm">
+<span>국도 44호선 인제 방면</span>
+<span>·</span>
+<span>서울서 약 1시간 40분 소요</span>
+</div>
+</div>
+</div>
+<!-- Live Status & Telemetry Strip -->
+<div class="grid grid-cols-3 p-space-md gap-2 bg-surface-container-low">
+<div class="flex flex-col items-center justify-center p-2 rounded-lg bg-surface-container-lowest text-center shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">주차 현황</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-title-md text-title-md font-bold text-secondary">여유 42대</span>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center p-2 rounded-lg bg-surface-container-lowest text-center shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">화장실 혼잡도</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+<span class="font-title-md text-title-md font-bold text-on-surface">원활 (대기 0분)</span>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center p-2 rounded-lg bg-surface-container-lowest text-center shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">급속 EV 충전</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[15px] text-on-tertiary-container">bolt</span>
+<span class="font-title-md text-title-md font-bold text-on-surface">4기 가동중</span>
+</div>
+</div>
+</div>
+<!-- Curated Highlights & Delights -->
+<div class="flex flex-col p-space-md gap-space-sm">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[20px] text-secondary shrink-0 mt-0.5">waves</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-bold">소양호 물안개 테라스 &amp; 카페 라운지</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">드넓은 호수 파노라마를 바라보며 마시는 강원 오미자 에이드와 갓 구운 수제 잣 호두과자</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.99] transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]">add_location_alt</span>
+<span>내비 경유지 추가</span>
+</button>
+<button class="h-11 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">videocam</span>
+<span>실시간 전망 CCTV</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 4. Rest Stop vs Expressway Comparison HUD Box -->
+<section class="rounded-xl bg-surface-container p-space-md flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-secondary">compare_arrows</span>
+<span class="font-title-md text-title-md font-bold text-on-surface">연휴 이동 스마트 비교 HUD</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">실시간 연동 데이터</span>
+</div>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Expressway Rest Area Column -->
+<div class="flex flex-col p-3 rounded-lg bg-error-container/30 text-on-error-container gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold">서울양양 가평휴게소</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-error text-on-error font-bold">매우 혼잡</span>
+</div>
+<ul class="flex flex-col gap-1 font-body-sm text-body-sm text-on-surface">
+<li class="flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>진입 램프 25분 대기</span>
+</li>
+<li class="text-on-surface-variant">푸드코트 픽업 35분 대기</li>
+<li class="text-on-surface-variant">화장실 20m 이상 대기줄</li>
+</ul>
+</div>
+<!-- Bypass Highway Stop Column -->
+<div class="flex flex-col p-3 rounded-lg bg-secondary-container/40 text-on-secondary-container gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold">국도 44·46호선 쉼터</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-secondary text-on-secondary font-bold">원활 여유</span>
+</div>
+<ul class="flex flex-col gap-1 font-body-sm text-body-sm text-on-surface">
+<li class="flex items-center gap-1 text-secondary font-bold">
+<span class="material-symbols-outlined text-[14px]">speed</span>
+<span>대기 시간 0분 진입</span>
+</li>
+<li class="text-on-surface">갓 조리한 로컬 메밀 &amp; 황태</li>
+<li class="text-on-surface">호수/산림 테라스 힐링 산책</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- 5. Curated Local Foodie & Specialty Rest Vault -->
+<section class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<h2 class="font-title-md text-title-md font-bold text-on-surface">우회 국도 미식 &amp; 감성 쉼터 리스트</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">KTO 및 현지 주민 인증 명가</span>
+</div>
+<span class="font-label-md text-label-md text-secondary font-bold cursor-pointer">거리순 정렬 ↓</span>
+</div>
+<!-- Card 1: Local Gourmet Spotlight (Gangwon Makguksu) -->
+<div class="flex flex-col rounded-xl bg-surface-container-lowest overflow-hidden shadow-sm">
+<div class="relative w-full aspect-[1.34] bg-surface-dim overflow-hidden">
+<img alt="홍천 화촌 메밀명가 동치미 막국수" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTKsP3ysznookPuEBSe7wY_2WC5z3EOW-Gk2T6KQ2grLfzQIus1kDT7AGjS4YOlPqnWYvbWDJlPJEUP_6lApvh-CqFKIPVKJuZfsD6xDJPgSo7rXEGfliYqpZKWOUi5TDwO3uAsiiwuT_ToQH3-GqaRG3vAUDBpPIx4gDcAi7WQL-woAl48ImBDgC1uJfV_9PBvGq4ziWFdc6rE6g6Dtk6Z44DJY6E_MYaZsk8FCrCqjUF_71zBCpr"/>
+<div class="absolute top-3 left-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed shadow-sm font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+<span>40년 전통 백년가게 · 미식 1위</span>
+</div>
+<div class="absolute bottom-3 right-3 px-2.5 py-0.5 rounded bg-primary-container/80 backdrop-blur-md text-on-primary font-label-sm text-label-sm font-bold">
+          국도 44호선 화촌IC 3분
+        </div>
+</div>
+<div class="flex flex-col p-space-md gap-2">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">
+              홍천 화촌 메밀명가 (동치미 막국수 &amp; 감자전)
+            </h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Gangwon Traditional Buckwheat Noodles</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded text-on-surface shrink-0">
+<span class="material-symbols-outlined text-[14px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold">4.89</span>
+</div>
+</div>
+<!-- Review Quote Snippet -->
+<p class="font-body-sm text-body-sm text-on-surface-variant italic bg-surface-container-low p-2 rounded-lg">
+          “살얼음 동치미 육수에 갓 뽑은 메밀향이 일품. 고속도로 푸드코트와는 차원이 다른 현지의 맛!”
+        </p>
+<!-- Status Badges -->
+<div class="flex items-center gap-1.5 flex-wrap font-label-sm text-label-sm">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-bold">웨이팅 없음 (실시간 여유)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">주차 35대 가능</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">테이블링 원격 대기</span>
+</div>
+<!-- Card Buttons -->
+<div class="grid grid-cols-2 gap-2 pt-2">
+<button class="h-10 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md font-bold flex items-center justify-center gap-1 hover:bg-surface-container-highest transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">touch_app</span>
+<span>원격 줄서기</span>
+</button>
+<button class="h-10 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-1 active:scale-[0.99] transition-transform" type="button">
+<span class="material-symbols-outlined text-[16px]">navigation</span>
+<span>경유지로 설정</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Specialty Snack & Heritage Rest Stop (Inje Dried Pollack) -->
+<div class="flex flex-col rounded-xl bg-surface-container-lowest p-space-md gap-3 shadow-sm">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-3">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-[28px] text-secondary">soup_kitchen</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-bold text-on-tertiary-container px-1.5 py-0.5 rounded bg-tertiary-fixed">현지인 추천</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">국도 46호선 미시령 8km 전</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mt-0.5">
+              인제 용대리 황태덕장 쉼터 &amp; 황태구이 정식
+            </h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">진한 황태해장국 솥밥 &amp; 연휴 선물용 햇황태 특판</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-1 bg-surface-container-low p-2 rounded-lg">
+<div class="flex items-center gap-1 text-secondary font-bold">
+<span class="material-symbols-outlined text-[14px]">local_parking</span>
+<span>대형 주차 50대 무료</span>
+</div>
+<span>운영: 07:00 ~ 20:00 (추석 당일 정상 영업)</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex-1 h-10 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">call</span>
+<span>전화 예약/포장</span>
+</button>
+<button class="flex-1 h-10 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">route</span>
+<span>길안내 시작</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Forest Bakery & Nature Rest Garden -->
+<div class="flex flex-col rounded-xl bg-surface-container-lowest p-space-md gap-3 shadow-sm">
+<div class="flex items-start gap-3">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-[28px] text-secondary">park</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-bold text-secondary px-1.5 py-0.5 rounded bg-secondary-fixed">숲속 힐링</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">홍천 가리산 자락</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface mt-0.5">
+            가리산 잣나무숲 베이커리 &amp; 글라스 하우스
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            솔방울 소금빵과 핸드드립 커피, 30분 숲길 피톤치드 산책 코스
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container">
+<span class="material-symbols-outlined text-[12px] text-secondary">child_care</span> 키즈 케어존
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container">
+<span class="material-symbols-outlined text-[12px] text-secondary">pets</span> 반려견 동반 잔디마당
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container">
+<span class="material-symbols-outlined text-[12px] text-secondary">ev_station</span> 완속 충전 2기
+        </span>
+</div>
+<button class="w-full h-10 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">add_circle</span>
+<span>오후 티타임 쉼터로 찜하기</span>
+</button>
+</div>
+</section>
+<!-- 6. Floating Action HUD Bar for Fast Navigation Integration -->
+<section class="sticky bottom-2 z-30 flex flex-col p-3 rounded-xl bg-surface-container-lowest/95 backdrop-blur-xl shadow-lg mt-2">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-md text-label-md font-bold text-on-surface">선택된 경유지: 인제 38선 휴게소 외 1곳</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-bold">+18분 힐링 시간</span>
+</div>
+<!-- Main Dispatch CTA -->
+<button class="w-full h-12 rounded-xl bg-primary text-on-primary font-title-md text-title-md font-bold flex items-center justify-center gap-2 shadow-md transition-transform active:scale-[0.98]" id="start-nav-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">near_me</span>
+<span>선택한 쉼터·맛집 경유지로 주행 시작</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<!-- Quick Navigation Apps Dispatch -->
+<div class="grid grid-cols-2 gap-2 mt-2 pt-2">
+<button class="h-9 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">map</span>
+<span>티맵(TMAP) 즉시 전송</span>
+</button>
+<button class="h-9 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container">directions_car</span>
+<span>카카오내비 전송</span>
+</button>
+</div>
+</section>
+</div>
+<script>
+  // Filter Tabs Interaction
+  document.querySelectorAll('#filter-pills .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#filter-pills .filter-btn').forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary');
+        b.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      btn.classList.add('bg-primary', 'text-on-primary');
+    });
+  });
+
+  // Haptic Feedback for Start Nav Button
+  const startBtn = document.getElementById('start-nav-btn');
+  if (startBtn) {
+    startBtn.addEventListener('click', () => {
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate([20, 30, 20]);
+      }
+      startBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span><span>내비게이션 경로 생성 중...</span>';
+      setTimeout(() => {
+        startBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span><span>우회 경유 경로 전송 완료!</span>';
+      }, 700);
+    });
+  }
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_24px_rgba(11,28,48,0.06)]" data-active-classes="text-secondary font-bold"><div class="flex justify-around items-center h-20 px-gutter"><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-14 text-on-surface-variant transition-colors hover:text-on-surface" data-path="golden-hour-route" href="#"><span class="material-symbols-outlined text-[24px]">speed</span><span class="font-label-sm text-label-sm text-center">골든타임</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-14 transition-colors text-secondary font-bold" data-path="smart-itinerary" href="#"><span class="material-symbols-outlined text-[24px]">calendar_month</span><span class="font-label-sm text-label-sm text-center">일정표</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-14 text-on-surface-variant transition-colors hover:text-on-surface" data-path="expressway-traffic-radar" href="#"><span class="material-symbols-outlined text-[24px]">alt_route</span><span class="font-label-sm text-label-sm text-center">교통지도</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-14 text-on-surface-variant transition-colors hover:text-on-surface" data-path="curated-stops-vault" href="#"><span class="material-symbols-outlined text-[24px]">bookmark</span><span class="font-label-sm text-label-sm text-center">보관함</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] h-14 text-on-surface-variant transition-colors hover:text-on-surface" data-path="vip-concierge-profile" href="#"><span class="material-symbols-outlined text-[24px]">account_circle</span><span class="font-label-sm text-label-sm text-center">마이페이지</span></a></div></nav></body></html>

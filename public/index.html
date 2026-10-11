@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>TripFlow Korea - 대시보드 (교통안내 / 숙박·식사 안내)</title>
+  
+  <!-- Fonts & Icons from Stitch Design System -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'surface': '#f8f9ff',
+            'surface-dim': '#cbdbf5',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-low': '#eff4ff',
+            'surface-container': '#e5eeff',
+            'surface-container-high': '#dce9ff',
+            'surface-container-highest': '#d3e4fe',
+            'on-surface': '#0b1c30',
+            'on-surface-variant': '#45464d',
+            'primary': '#0f172a',
+            'primary-container': '#131b2e',
+            'secondary': '#006a61',
+            'secondary-container': '#86f2e4',
+            'on-secondary-container': '#006f66',
+            'tertiary-fixed': '#ffddb8',
+            'on-tertiary-fixed': '#2a1700',
+            'on-tertiary-container': '#b87500',
+            'error': '#ba1a1a',
+            'outline-variant': '#c6c6cd'
+          },
+          fontFamily: {
+            sans: ['Pretendard', 'Manrope', 'Plus Jakarta Sans', 'sans-serif'],
+            title: ['Plus Jakarta Sans', 'Pretendard', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  
+  <style>
+    body {
+      background-color: #f1f5f9;
+      overscroll-behavior: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    /* Mobile App Shell Container */
+    .app-viewport {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background-color: #f8f9ff;
+      box-shadow: 0 0 35px rgba(15, 23, 42, 0.08);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (min-width: 1024px) {
+      .app-viewport {
+        margin: 20px auto;
+        min-height: calc(100vh - 40px);
+        border-radius: 28px;
+        overflow: hidden;
+        border: 8px solid #0f172a;
+      }
+    }
+  </style>
+</head>
+<body class="text-on-surface flex justify-center">
+
+  <!-- Mobile App Wrapper -->
+  <div class="app-viewport">
+    
+    <!-- 1. Header (Fixed Top) -->
+    <header class="sticky top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-xl border-b border-surface-container-high/60 px-4 py-3 flex flex-col gap-2 shadow-sm">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5 cursor-pointer" id="btnLogoHome">
+          <img src="/assets/logo.png" alt="TripFlow Logo" class="h-8 w-auto object-contain rounded-md"/>
+          <div class="flex flex-col">
+            <span class="font-title text-[17px] font-extrabold text-on-surface tracking-tight leading-none">TripFlow Korea</span>
+            <span class="text-[10px] uppercase font-bold text-secondary tracking-wider mt-0.5">No-Traffic Concierge</span>
+          </div>
+        </div>
+
+        <!-- Right Badges -->
+        <div class="flex items-center gap-2">
+          <button type="button" id="btnHeaderSeasonBadge" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-[11px] font-extrabold shadow-xs hover:ring-2 hover:ring-amber-400 transition-all active:scale-95 cursor-pointer" title="클릭하여 여행 시즌 및 테마 빠른 변경">
+            <span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span>
+            <span id="headerSeasonBadgeText">추석 연휴 특수</span>
+            <span class="material-symbols-outlined text-[13px] text-on-tertiary-container">tune</span>
+          </button>
+          <img src="/assets/avatar.png?v=2" alt="열심히 일한 당신, 떠나라!" title="열심히 일한 당신, 떠나라!" class="w-9 h-9 rounded-full object-cover border-2 border-secondary/40 shadow-xs"/>
+        </div>
+      </div>
+
+      <!-- Quick Location Pill & Status Bar -->
+      <div class="flex items-center justify-between gap-2 pt-0.5 text-xs">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-on-surface font-semibold">
+          <span class="material-symbols-outlined text-[15px] text-secondary">near_me</span>
+          <span id="currentStartLocationLabel">🏡 우리집: 대전 출발 (Daejeon Base)</span>
+        </div>
+        <div class="flex items-center gap-1 text-secondary font-bold text-[11px]">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+          <span>수평·남쪽 상행정체 회피</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Main Scrollable Container -->
+    <main class="flex-1 pb-24 overflow-y-auto">
+
+      <!-- ========================================================================= -->
+      <!-- VIEW 1: MAIN DASHBOARD (대시보드 메인 화면 - 2대 대메뉴 허브) -->
+      <!-- ========================================================================= -->
+      <div id="viewDashboard" class="flex flex-col p-4 gap-4">
+        
+        <!-- Live Trip Status Banner -->
+        <section class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">
+              <span class="material-symbols-outlined text-[14px]">verified</span>
+              <span>한국관광공사 & 도로공사 공인 데이터 연동</span>
+            </div>
+            <span class="text-xs text-secondary font-extrabold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              대시보드 허브
+            </span>
+          </div>
+          <div class="flex items-baseline justify-between mt-1">
+            <div>
+              <span class="text-xs text-slate-500 font-medium">대전 출발 맞춤 추천 권역</span>
+              <div class="text-lg font-black text-slate-900" id="dashHeroRegion">
+                서해안 (보령·서천·군산) & 호남 남도
+              </div>
+            </div>
+            <span class="text-xs font-black text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg">
+              정체 0% 쾌속로
+            </span>
+          </div>
+        </section>
+
+        <!-- Fast Days Duration Selector (당일, 1박2일, 2박3일, 3박4일 원클릭 세그먼트) -->
+        <section class="bg-surface-container-lowest rounded-2xl p-3 shadow-xs border border-slate-100 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-slate-800 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px] text-teal-700">calendar_today</span>
+              <span>여행 기간 원클릭 선택</span>
+            </span>
+            <span id="dashDurationSummary" class="text-[11px] font-extrabold text-teal-900 bg-teal-100 px-2.5 py-0.5 rounded-full">2박 3일 (7~9끼)</span>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5 p-1 bg-slate-100/90 rounded-xl" id="dashDaysSegment">
+            <button type="button" data-days="1" class="btn-day-segment py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all text-center">당일치기</button>
+            <button type="button" data-days="2" class="btn-day-segment py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all text-center">1박 2일</button>
+            <button type="button" data-days="3" class="btn-day-segment active py-2 rounded-lg text-xs font-black bg-slate-900 text-white shadow-xs transition-all text-center">2박 3일 ⭐</button>
+            <button type="button" data-days="4" class="btn-day-segment py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all text-center">3박 4일</button>
+          </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- THE BIG 2 HERO MENU CARDS (사용자 지정 2대 핵심 대메뉴) -->
+        <!-- ========================================================== -->
+        <section class="flex flex-col gap-3">
+          <div class="flex items-center justify-between px-1">
+            <h2 class="text-sm font-black text-slate-900 tracking-tight flex items-center gap-1.5">
+              <span>⚡ 핵심 컨시어지 2대 메뉴</span>
+            </h2>
+            <span class="text-[11px] text-slate-400 font-bold">원클릭 서브화면 이동</span>
+          </div>
+
+          <!-- 1. BIG MENU 1: 교통안내 (길안내 / 골든타임 & 우회국도) -->
+          <div id="dashBtnTraffic" class="group relative rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-5 text-white shadow-md border border-slate-800 cursor-pointer overflow-hidden active:scale-[0.99] transition-all hover:shadow-lg">
+            <!-- Background Glow & Route Line Accent -->
+            <div class="absolute -right-6 -bottom-6 w-36 h-36 rounded-full bg-teal-500/10 blur-2xl pointer-events-none"></div>
+            <div class="absolute top-4 right-4 text-slate-600 group-hover:text-teal-400 transition-colors">
+              <span class="material-symbols-outlined text-[32px]">arrow_forward</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center text-teal-300 shrink-0 shadow-inner">
+                <span class="material-symbols-outlined text-[28px]">traffic</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-black uppercase tracking-wider text-teal-300">No-Traffic Highway Hub</span>
+                  <span id="dashTrafficDaysTag" class="px-2 py-0.5 bg-teal-500/30 text-teal-200 font-extrabold text-[10px] rounded-md">3일 연휴 코스</span>
+                </div>
+                <h3 class="text-xl font-black text-white tracking-tight mt-0.5">교통안내 (길안내)</h3>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-300/90 mt-3 leading-relaxed">
+              길에서 시간 버리지 않는 한국도로공사 연계 실시간 트래픽, 출발 골든타임 시뮬레이터, CCTV 피드 및 우회 국도 안내
+            </p>
+
+            <!-- Key Feature Badges inside Big Menu -->
+            <div class="grid grid-cols-3 gap-1.5 mt-3 pt-3 border-t border-slate-800/80 text-center">
+              <div class="p-2 rounded-xl bg-white/5 backdrop-blur-xs flex flex-col">
+                <span class="text-[10px] text-slate-400">골든타임</span>
+                <span class="text-xs font-black text-teal-300 mt-0.5">06:15 AM</span>
+              </div>
+              <div class="p-2 rounded-xl bg-white/5 backdrop-blur-xs flex flex-col">
+                <span class="text-[10px] text-slate-400">단축 효과</span>
+                <span class="text-xs font-black text-amber-300 mt-0.5">-2h 40m</span>
+              </div>
+              <div class="p-2 rounded-xl bg-white/5 backdrop-blur-xs flex flex-col">
+                <span class="text-[10px] text-slate-400">우회국도</span>
+                <span class="text-xs font-black text-white mt-0.5">정체 0%</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-3 text-xs font-bold text-teal-300 group-hover:translate-x-1 transition-transform">
+              <span>교통안내 서브 화면 열기</span>
+              <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+            </div>
+          </div>
+
+          <!-- 2. BIG MENU 2: 숙박과 식사 안내 (7~9끼 맛집 & KTO 안심 숙박) -->
+          <div id="dashBtnStayDining" class="group relative rounded-3xl bg-gradient-to-br from-amber-900 via-orange-950 to-slate-900 p-5 text-white shadow-md border border-amber-800/60 cursor-pointer overflow-hidden active:scale-[0.99] transition-all hover:shadow-lg">
+            <!-- Background Glow Accent -->
+            <div class="absolute -right-6 -bottom-6 w-36 h-36 rounded-full bg-amber-500/10 blur-2xl pointer-events-none"></div>
+            <div class="absolute top-4 right-4 text-amber-600/70 group-hover:text-amber-300 transition-colors">
+              <span class="material-symbols-outlined text-[32px]">arrow_forward</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-300 shrink-0 shadow-inner">
+                <span class="material-symbols-outlined text-[28px]">restaurant_menu</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-black uppercase tracking-wider text-amber-300">Dining & Stay Hub</span>
+                  <span class="px-1.5 py-0.2 bg-amber-400 text-amber-950 font-black text-[9px] rounded-md">KTO 공인</span>
+                </div>
+                <h3 class="text-xl font-black text-white tracking-tight mt-0.5">숙박과 식사 안내</h3>
+              </div>
+            </div>
+
+            <p id="dashDiningDesc" class="text-xs text-amber-100/90 mt-3 leading-relaxed">
+              경로보다 100배 중요한 3일간 7~9끼 식도락 로드맵(백년가게)과 한국관광 품질인증(KQ) 안심 숙소·한옥스테이 통합 안내
+            </p>
+
+            <!-- Key Feature Badges inside Big Menu -->
+            <div class="grid grid-cols-3 gap-1.5 mt-3 pt-3 border-t border-amber-800/80 text-center">
+              <div class="p-2 rounded-xl bg-white/5 backdrop-blur-xs flex flex-col">
+                <span class="text-[10px] text-amber-200/70">식사 끼니</span>
+                <span id="dashDiningMealCountBadge" class="text-xs font-black text-amber-300 mt-0.5">7~9끼 식사</span>
+              </div>
+              <div class="p-2 rounded-xl bg-white/5 backdrop-blur-xs flex flex-col">
+                <span class="text-[10px] text-amber-200/70">공인 맛집</span>
+                <span class="text-xs font-black text-amber-200 mt-0.5">백년가게·안심</span>
+              </div>
+              <div class="p-2 rounded-xl bg-white/5 backdrop-blur-xs flex flex-col">
+                <span class="text-[10px] text-amber-200/70">안심 숙박</span>
+                <span id="dashStayNightCountBadge" class="text-xs font-black text-white mt-0.5">2박 (한옥·호텔)</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-3 text-xs font-bold text-amber-300 group-hover:translate-x-1 transition-transform">
+              <span>숙박·식사 안내 서브 화면 열기</span>
+              <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Secondary Quick Cards: 3일 추천 코스 & AI 비서 -->
+        <section class="grid grid-cols-2 gap-2.5">
+          <!-- 3일 추천 코스 카드 -->
+          <div id="dashBtnItinerary" class="p-4 rounded-2xl bg-white border border-slate-100 shadow-xs flex flex-col justify-between cursor-pointer hover:border-slate-400 transition-all active:scale-98">
+            <div class="flex flex-col gap-1">
+              <div class="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800 mb-1">
+                <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+              </div>
+              <span class="text-xs font-black text-slate-900">3일 일정 & 발자취</span>
+              <span class="text-[11px] text-slate-500 leading-tight">지나온 자리 누적 기억 & 전체 동선</span>
+            </div>
+            <div class="flex items-center gap-1 text-[11px] font-bold text-slate-700 mt-3 pt-2 border-t border-slate-100">
+              <span>일정 확인</span>
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </div>
+          </div>
+
+          <!-- 한국관광공사 AI 비서 카드 -->
+          <div id="dashBtnQa" class="p-4 rounded-2xl bg-white border border-slate-100 shadow-xs flex flex-col justify-between cursor-pointer hover:border-teal-500 transition-all active:scale-98">
+            <div class="flex flex-col gap-1">
+              <div class="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center text-teal-800 mb-1">
+                <span class="material-symbols-outlined text-[18px]">forum</span>
+              </div>
+              <span class="text-xs font-black text-slate-900">한국관광공사 AI</span>
+              <span class="text-[11px] text-slate-500 leading-tight">대한민국 구석구석 공식 질의응답</span>
+            </div>
+            <div class="flex items-center gap-1 text-[11px] font-bold text-teal-800 mt-3 pt-2 border-t border-slate-100">
+              <span>질문하기</span>
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quick 1-Click Best Chuseok Presets -->
+        <section class="flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-extrabold text-on-surface flex items-center gap-1.5">
+              <span>⚡ 대전 출발 추천 프리셋 4선</span>
+            </h3>
+            <span class="text-xs text-secondary font-semibold">1클릭 로드</span>
+          </div>
+          <div id="mobilePresetList" class="flex flex-col gap-2">
+            <div class="text-xs text-slate-400 py-3 text-center">추천 프리셋 로딩 중...</div>
+          </div>
+        </section>
+
+        <!-- Travel Customizer Form (Accordion / Collapsible) -->
+        <section class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-on-surface">나만의 맞춤 여행 조건 변경</h3>
+            <span class="text-xs text-slate-400">대전 출발 기준</span>
+          </div>
+
+          <form id="mobileTripForm" class="flex flex-col gap-3">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-xs font-bold text-slate-600 block mb-1">여행 계절</label>
+                <select id="mSeasonSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 outline-none">
+                  <option value="가을" selected>🍁 가을 (단풍/억새)</option>
+                  <option value="봄">🌸 봄 (벚꽃/꽃축제)</option>
+                  <option value="여름">🌊 여름 (바다/계곡)</option>
+                  <option value="겨울">❄️ 겨울 (설경/온천)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-slate-600 block mb-1">여행 기간</label>
+                <select id="mDaysSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 outline-none">
+                  <option value="3" selected>2박 3일 (추석 연휴) ⭐</option>
+                  <option value="2">1박 2일</option>
+                  <option value="1">당일치기</option>
+                  <option value="4">3박 4일</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-xs font-bold text-slate-600 block mb-1">출발 지역</label>
+                <select id="mStartLocation" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 outline-none">
+                  <option value="대전/세종/충청" selected>🏡 대전 / 세종 / 충청 (우리집)</option>
+                  <option value="서울/수도권">서울 / 경기 / 인천</option>
+                  <option value="광주/전라">광주 / 전라</option>
+                  <option value="대구/경북">대구 / 경북</option>
+                  <option value="부산/경남">부산 / 울산 / 경남</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-slate-600 block mb-1">이동 수단</label>
+                <select id="mTransport" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 outline-none">
+                  <option value="car" selected>자가용 / 렌터카</option>
+                  <option value="public">KTX / 대중교통</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-slate-600 block mb-1">동행 형태</label>
+              <div class="grid grid-cols-5 gap-1" id="mCompanionGroup">
+                <button type="button" class="comp-chip active flex flex-col items-center py-2 px-1 rounded-xl bg-slate-900 text-white text-[11px] font-bold" data-val="가족">
+                  <span class="material-symbols-outlined text-[18px]">family_restroom</span>
+                  <span>가족</span>
+                </button>
+                <button type="button" class="comp-chip flex flex-col items-center py-2 px-1 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-bold" data-val="부모님">
+                  <span class="material-symbols-outlined text-[18px]">elderly</span>
+                  <span>부모님</span>
+                </button>
+                <button type="button" class="comp-chip flex flex-col items-center py-2 px-1 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-bold" data-val="아이동반">
+                  <span class="material-symbols-outlined text-[18px]">child_care</span>
+                  <span>아이</span>
+                </button>
+                <button type="button" class="comp-chip flex flex-col items-center py-2 px-1 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-bold" data-val="연인">
+                  <span class="material-symbols-outlined text-[18px]">favorite</span>
+                  <span>연인</span>
+                </button>
+                <button type="button" class="comp-chip flex flex-col items-center py-2 px-1 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-bold" data-val="혼자">
+                  <span class="material-symbols-outlined text-[18px]">person</span>
+                  <span>1인</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-slate-600 block mb-1">선호 테마</label>
+              <div class="flex flex-wrap gap-1.5" id="mThemeGroup">
+                <button type="button" class="theme-chip active px-3 py-1.5 rounded-full bg-emerald-800 text-white text-xs font-bold" data-val="힐링">🌿 힐링/자연</button>
+                <button type="button" class="theme-chip active px-3 py-1.5 rounded-full bg-emerald-800 text-white text-xs font-bold" data-val="맛집">🍲 로컬미식</button>
+                <button type="button" class="theme-chip px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold" data-val="역사">🏛️ 역사유산</button>
+                <button type="button" class="theme-chip px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold" data-val="감성">☕ 감성카페</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-slate-600 block mb-1">특별 희망사항</label>
+              <input type="text" id="mCustomRequest" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none" placeholder="예: 바다가 보이는 숙소, 정체 덜한 곳">
+            </div>
+
+            <button type="submit" id="mGenerateBtn" class="w-full mt-2 bg-gradient-to-r from-teal-800 to-slate-900 text-white font-bold py-3.5 rounded-xl shadow-md text-sm flex items-center justify-center gap-2 active:scale-98 transition-transform">
+              <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+              <span>트래픽 최적화 3일 코스 생성하기</span>
+            </button>
+          </form>
+        </section>
+
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- VIEW 2: TRAFFIC & DETOURS (교통안내 / 길안내 서브 화면) -->
+      <!-- ========================================================================= -->
+      <div id="viewTraffic" class="hidden flex flex-col p-4 gap-4">
+        
+        <!-- Subscreen Top Navigation (Back to Dashboard Button) -->
+        <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+          <button type="button" class="btn-back-dashboard flex items-center gap-1.5 text-xs font-black text-slate-900 bg-white border border-slate-200 px-3.5 py-2 rounded-xl hover:bg-slate-50 transition-colors shadow-xs active:scale-95">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            <span>← 메인 대시보드로 나가기</span>
+          </button>
+          <span class="text-xs font-black text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-teal-600 animate-pulse"></span>
+            교통안내 서브화면
+          </span>
+        </div>
+
+        <!-- Hero Header -->
+        <div class="rounded-2xl bg-gradient-to-r from-slate-900 to-indigo-950 p-4 text-white shadow-sm flex flex-col gap-1.5 border border-slate-800">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-teal-300">
+            <span class="material-symbols-outlined text-[16px]">verified</span>
+            <span>한국도로공사 국가교통정보센터 연계</span>
+          </div>
+          <h2 class="text-lg font-black tracking-tight">실시간 교통안내 & 우회 국도</h2>
+          <p class="text-xs text-slate-300">수도권 상행선 지옥 정체를 100% 회피하고 도로 위에서 시간 낭비하지 않는 최적 길안내</p>
+        </div>
+
+        <!-- Golden Time Predictor Card -->
+        <section class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+                <span class="material-symbols-outlined text-[18px]">schedule</span>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-on-surface">출발 골든타임 시뮬레이터</h3>
+                <p class="text-xs text-on-surface-variant">도로 위에서 시간 낭비하지 않는 최적 시점</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">AI 실시간 예측</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-surface-container-low flex flex-col gap-2 border border-blue-50">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-secondary flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                🌟 대전 출발 추천 골든타임 시각
+              </span>
+              <span class="text-xs font-extrabold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full" id="plannerSavedTimeBadge">
+                2시간 40분 단축
+              </span>
+            </div>
+            <div class="flex items-baseline justify-between">
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-3xl font-black text-on-surface tracking-tight" id="plannerGoldenTimeBig">06:15</span>
+                <span class="text-sm font-bold text-on-surface-variant">AM</span>
+                <span class="text-[10px] font-bold bg-secondary text-white px-2 py-0.5 rounded-full ml-1">쾌속 주행</span>
+              </div>
+              <div class="text-right">
+                <span class="text-[11px] text-on-surface-variant block">예상 편도 소요</span>
+                <span class="text-sm font-bold text-on-surface" id="plannerEstimatedDuration">1시간 10분</span>
+              </div>
+            </div>
+
+            <!-- Comparison Bar -->
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <div class="p-2 rounded-lg bg-white shadow-xs flex flex-col">
+                <span class="text-[10px] text-red-600 font-bold flex items-center gap-0.5">
+                  <span class="material-symbols-outlined text-[12px]">warning</span> 일반 피크 출발 (09:30)
+                </span>
+                <span class="text-xs font-black text-red-600 mt-0.5">4시간 30분 소요</span>
+              </div>
+              <div class="p-2 rounded-lg bg-white shadow-xs flex flex-col">
+                <span class="text-[10px] text-secondary font-bold flex items-center gap-0.5">
+                  <span class="material-symbols-outlined text-[12px]">offline_bolt</span> 골든타임 (06:15)
+                </span>
+                <span class="text-xs font-black text-secondary mt-0.5">1시간 10분 쾌속</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Highway CCTV Feed Widget -->
+        <section class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-slate-100 flex flex-col p-4 gap-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px] text-red-600 animate-pulse">videocam</span>
+              <h4 class="text-sm font-extrabold text-slate-900">실시간 고속도로 CCTV 피드</h4>
+            </div>
+            <span class="text-[10px] font-bold text-slate-500">한국도로공사 연계</span>
+          </div>
+          <div class="relative w-full aspect-[2] rounded-xl overflow-hidden bg-slate-950">
+            <img src="/assets/cctv.png" alt="고속도로 CCTV" class="w-full h-full object-cover"/>
+            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-red-600 text-white text-[10px] font-bold">
+              ● LIVE · 서천공주선 공주JCT (보령·서천 방면)
+            </div>
+            <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-emerald-400 text-[10px] font-bold">
+              평균 주행속도: 96 km/h (원활)
+            </div>
+          </div>
+        </section>
+
+        <!-- Interactive 24H Traffic Congestion Simulator -->
+        <section class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-3">
+          <h4 class="text-sm font-extrabold text-slate-900">24시간대별 정체 히트맵 & 골든타임</h4>
+
+          <div class="flex items-end gap-1 h-28 pt-2 pb-5 px-1 border-b border-slate-100 overflow-x-auto" id="mTrafficBars">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Detour Tip Box -->
+          <div class="p-3 rounded-xl bg-amber-50 border border-amber-100 text-xs text-amber-900 flex items-start gap-2">
+            <span class="material-symbols-outlined text-amber-700 text-[18px] shrink-0">alt_route</span>
+            <div>
+              <strong class="block font-bold">추천 우회 국도 코스:</strong>
+              <span id="mDetourText">서천공주선(동서 쾌속) ➔ 국도 21호선(보령·서천 해안도로)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Detour Scenic Rest Stop Spotlight -->
+        <section class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-slate-100 flex flex-col">
+          <div class="relative w-full aspect-[1.8] overflow-hidden bg-slate-900">
+            <img src="/assets/rest_stop.png" alt="KTO 힐링 휴게소" class="w-full h-full object-cover"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-400 text-amber-950 text-xs font-black shadow-xs">
+              <span class="material-symbols-outlined text-[14px]">workspace_premium</span>
+              <span>KTO 인증 힐링 쉼터 · 뷰 1위</span>
+            </div>
+            <div class="absolute bottom-3 inset-x-3 text-white">
+              <span class="text-[10px] text-teal-300 font-bold uppercase tracking-wider block">Scenic Rest Stop</span>
+              <h3 class="text-base font-extrabold drop-shadow-sm">서해안 대천 IC 인근 해변 솔숲 쉼터</h3>
+              <p class="text-[11px] text-slate-200">고속도로 정체를 피하고 여유롭게 바다를 조망하는 최적의 쉼터</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 p-3 gap-2 bg-slate-50 text-center text-xs">
+            <div class="p-2 rounded-xl bg-white shadow-xs">
+              <span class="text-[10px] text-slate-500 block">주차 현황</span>
+              <span class="font-extrabold text-teal-700">여유 45대</span>
+            </div>
+            <div class="p-2 rounded-xl bg-white shadow-xs">
+              <span class="text-[10px] text-slate-500 block">식음료 대기</span>
+              <span class="font-extrabold text-slate-800">0분 쾌속</span>
+            </div>
+            <div class="p-2 rounded-xl bg-white shadow-xs">
+              <span class="text-[10px] text-slate-500 block">전기차 충전</span>
+              <span class="font-extrabold text-teal-700">급속 6기 여유</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- VIEW 3: STAYS & DINING (숙박과 식사 안내 서브 화면) -->
+      <!-- ========================================================================= -->
+      <div id="viewStayDining" class="hidden flex flex-col p-4 gap-4">
+        
+        <!-- Subscreen Top Navigation (Back to Dashboard Button) -->
+        <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+          <button type="button" class="btn-back-dashboard flex items-center gap-1.5 text-xs font-black text-amber-950 bg-white border border-amber-200 px-3.5 py-2 rounded-xl hover:bg-amber-50 transition-colors shadow-xs active:scale-95">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            <span>← 메인 대시보드로 나가기</span>
+          </button>
+          <span class="text-xs font-black text-amber-900 bg-amber-100 px-2.5 py-1 rounded-full flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse"></span>
+            숙박·식사 서브화면
+          </span>
+        </div>
+
+        <!-- Header Banner -->
+        <div class="rounded-2xl bg-gradient-to-r from-amber-900 via-orange-950 to-slate-950 p-4 text-white shadow-sm flex flex-col gap-2 border border-amber-500/20">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-amber-300 bg-amber-950/80 px-2.5 py-1 rounded-full flex items-center gap-1 border border-amber-400/30">
+              <span class="material-symbols-outlined text-[14px]">verified</span>
+              한국관광공사(KTO) 공인 인증 직결
+            </span>
+            <span class="text-[11px] font-black bg-amber-400 text-amber-950 px-2 py-0.5 rounded-full shadow-xs">
+              3일 7~9끼 & 안심숙소
+            </span>
+          </div>
+          <h2 class="text-xl font-black tracking-tight text-white flex items-center gap-1.5 mt-0.5">
+            <span>🏨🍲 숙박과 식사 안내 컨시어지</span>
+          </h2>
+          <p class="text-xs text-amber-100/90 leading-snug">
+            경로보다 100배 중요한 먹거리 고민 제로! 한국관광공사 백년가게, 향토음식점과 한국관광 품질인증(KQ) 안심 숙소·한옥스테이를 통합 안내합니다.
+          </p>
+        </div>
+
+        <!-- Sub-Tab Switcher: [식사(맛집)] vs [숙박(호텔/한옥)] -->
+        <div class="flex items-center gap-2 bg-slate-200/80 p-1 rounded-2xl">
+          <button type="button" id="tabBtnDining" class="flex-1 py-2.5 rounded-xl bg-white text-slate-900 text-xs font-black shadow-xs flex items-center justify-center gap-1.5 transition-all active">
+            <span class="material-symbols-outlined text-[18px] text-amber-700">restaurant_menu</span>
+            <span>🥢 7~9끼 식도락 로드맵</span>
+          </button>
+          <button type="button" id="tabBtnStay" class="flex-1 py-2.5 rounded-xl text-slate-600 text-xs font-bold flex items-center justify-center gap-1.5 transition-all hover:text-slate-900">
+            <span class="material-symbols-outlined text-[18px] text-indigo-600">hotel</span>
+            <span>🏨 KTO 품질인증 숙소·한옥</span>
+          </button>
+        </div>
+
+        <!-- ==================== SUB-PANEL A: DINING (7~9 MEALS) ==================== -->
+        <div id="panelDining" class="flex flex-col gap-4">
+          
+          <!-- 1. Real-time Location Based KTO Restaurant Caller -->
+          <section class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-amber-600 text-[20px]">near_me</span>
+                <h3 class="text-sm font-extrabold text-slate-900">내 현재 위치 / 경유지 기준 맛집 즉시 호출</h3>
+              </div>
+              <span class="text-[10px] font-bold text-teal-800 bg-teal-50 px-2 py-0.5 rounded-full">KTO 실시간 매핑</span>
+            </div>
+            <p class="text-xs text-slate-500 leading-tight">지금 머물고 계신 곳이나 다음 경유지를 1클릭하면 한국관광공사 공인 맛집을 즉시 불러옵니다.</p>
+
+            <!-- Quick Location Chips -->
+            <div class="flex flex-wrap gap-1.5" id="gourmetQuickLocs">
+              <button type="button" class="loc-chip active px-2.5 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold transition-colors" data-loc="보령">
+                📍 보령 대천·무창포
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="서천">
+                📍 서천 판교·금강
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="군산">
+                📍 군산 근대거리
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="대청호">
+                📍 대청호·옥천
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="속리산">
+                📍 속리산 법주사
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="무주">
+                📍 무주 구천동
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="전주">
+                📍 전주 한옥마을
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="순천">
+                📍 순천만습지
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="여수">
+                📍 여수 밤바다
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-loc="경주">
+                📍 경주 보문·대릉원
+              </button>
+              <button type="button" class="loc-chip px-2.5 py-1.5 rounded-xl bg-amber-100 text-amber-900 text-xs font-extrabold hover:bg-amber-200 transition-colors" data-loc="대전">
+                🏡 대전 귀가식
+              </button>
+            </div>
+
+            <!-- Search Input Form -->
+            <div class="flex gap-2 mt-1">
+              <input type="text" id="gourmetSearchInput" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-800 outline-none focus:border-amber-600 font-medium" placeholder="지역명 또는 메뉴 입력 (예: 꽃게, 대하, 콩나물국밥, 백년가게)">
+              <button type="button" id="btnGourmetSearch" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-black rounded-xl flex items-center gap-1 shadow-xs transition-colors">
+                <span class="material-symbols-outlined text-[16px]">search</span>
+                <span>호출</span>
+              </button>
+            </div>
+
+            <!-- Search Results List Container -->
+            <div id="gourmetSearchResults" class="flex flex-col gap-2.5 mt-1">
+              <!-- Dynamic Cards Populated via JS -->
+            </div>
+          </section>
+
+          <!-- 2. Full 3-Day 7~9 Meal Course Roadmap -->
+          <section class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-emerald-700 text-[20px]">calendar_today</span>
+                <h3 class="text-sm font-extrabold text-slate-900">3일 연휴 7~9끼 풀코스 식도락 로드맵</h3>
+              </div>
+              <span class="text-xs font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full" id="mealProgressText">0 / 8끼 완료</span>
+            </div>
+            <p class="text-xs text-slate-500">1일차 점심부터 3일차 대전 복귀 저녁까지 전체 끼니별 식당이 빈틈없이 매핑되어 있습니다.</p>
+
+            <!-- Day Filter for Meals -->
+            <div class="grid grid-cols-4 gap-1.5">
+              <button type="button" class="meal-day-filter flex-1 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold active" data-meal-day="all">전체 끼니</button>
+              <button type="button" class="meal-day-filter flex-1 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold" data-meal-day="1">Day 1</button>
+              <button type="button" class="meal-day-filter flex-1 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold" data-meal-day="2">Day 2</button>
+              <button type="button" class="meal-day-filter flex-1 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold" data-meal-day="3">Day 3</button>
+            </div>
+
+            <!-- 7~9 Meals Stream Cards -->
+            <div id="mealPlanCardsContainer" class="flex flex-col gap-3 mt-1">
+              <!-- Populated via JS -->
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ==================== SUB-PANEL B: STAYS (KTO 품질인증 숙소 & 한옥) ==================== -->
+        <div id="panelStay" class="hidden flex flex-col gap-4">
+          
+          <section class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-indigo-700 text-[20px]">night_shelter</span>
+                <h3 class="text-sm font-extrabold text-slate-900">KTO 품질인증 숙소 & 한옥스테이</h3>
+              </div>
+              <span class="text-[10px] font-bold text-indigo-800 bg-indigo-50 px-2 py-0.5 rounded-full">안심 숙박</span>
+            </div>
+            <p class="text-xs text-slate-500 leading-tight">한국관광공사가 엄격한 위생과 품질을 보증하는 한국관광 품질인증(KQ) 숙소와 고품격 한옥스테이</p>
+
+            <!-- Quick Location Chips for Stays -->
+            <div class="flex flex-wrap gap-1.5" id="stayQuickLocs">
+              <button type="button" class="stay-loc-chip active px-2.5 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold transition-colors" data-stay-loc="보령">
+                보령·대천 리조트
+              </button>
+              <button type="button" class="stay-loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-stay-loc="서천">
+                서천 고택 한옥
+              </button>
+              <button type="button" class="stay-loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-stay-loc="군산">
+                군산 근대 가옥
+              </button>
+              <button type="button" class="stay-loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-stay-loc="속리산">
+                속리산 숲휴양림
+              </button>
+              <button type="button" class="stay-loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-stay-loc="완주">
+                완주 아원고택
+              </button>
+              <button type="button" class="stay-loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-stay-loc="전주">
+                전주 학인당 한옥
+              </button>
+              <button type="button" class="stay-loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-stay-loc="여수">
+                여수 오션뷰 호텔
+              </button>
+              <button type="button" class="stay-loc-chip px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors" data-stay-loc="경주">
+                경주 한옥호텔
+              </button>
+              <button type="button" class="stay-loc-chip px-2.5 py-1.5 rounded-xl bg-indigo-50 text-indigo-900 text-xs font-bold hover:bg-indigo-100 transition-colors" data-stay-loc="대전">
+                🏡 대전 호캉스
+              </button>
+            </div>
+
+            <!-- Stays Cards Container -->
+            <div id="staysListContainer" class="flex flex-col gap-3 mt-1">
+              <!-- Populated via JS -->
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- VIEW 4: ITINERARY TIMELINE (3일 일정 & 발자취 기억 트래커) -->
+      <!-- ========================================================================= -->
+      <div id="viewItinerary" class="hidden flex flex-col p-4 gap-4">
+        
+        <!-- Subscreen Top Navigation (Back to Dashboard Button) -->
+        <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+          <button type="button" class="btn-back-dashboard flex items-center gap-1.5 text-xs font-black text-slate-900 bg-white border border-slate-200 px-3.5 py-2 rounded-xl hover:bg-slate-50 transition-colors shadow-xs active:scale-95">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            <span>← 메인 대시보드로 나가기</span>
+          </button>
+          <span class="text-xs font-black text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full">
+            3일 일정 서브화면
+          </span>
+        </div>
+
+        <!-- Header Banner -->
+        <div class="rounded-2xl bg-surface-container-lowest p-4 shadow-sm border border-slate-100 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">verified</span>
+              KTO 한국관광 100선 인증 코스
+            </span>
+            <span class="text-xs font-bold text-slate-400" id="itineraryDaysTag">2박 3일</span>
+          </div>
+          <h2 class="text-xl font-black text-slate-900 tracking-tight" id="itineraryTitle">충남 서해안 힐링 로드</h2>
+          <p class="text-xs text-slate-500" id="itineraryVibe">푸른 바다와 솔향 가득한 산책 코스</p>
+
+          <!-- Traffic Low Risk Pill -->
+          <div class="mt-2 p-2.5 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-emerald-700 text-[18px]">shield</span>
+              <div class="flex flex-col">
+                <span class="text-xs font-bold text-emerald-900">정체 위험도: 낮음 (LOW)</span>
+                <span class="text-[11px] text-emerald-700">고속도로 이동 시간 약 35% 단축 달성</span>
+              </div>
+            </div>
+            <span class="text-xs font-black text-emerald-700 bg-white px-2 py-0.5 rounded-md shadow-xs">-2h 40m</span>
+          </div>
+        </div>
+
+        <!-- 누적 여정 트래커 & 전체 동선 컨텍스트 유지 (Continuous Journey Memory Tracker) -->
+        <section id="journeyMemorySection" class="rounded-2xl bg-surface-container-lowest p-4 shadow-sm border border-emerald-100 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5 text-xs font-black text-emerald-900">
+              <span class="material-symbols-outlined text-emerald-600 text-[18px]">history_edu</span>
+              <span>누적 여정 기억 & 전체 동선 컨텍스트</span>
+            </div>
+            <button type="button" id="btnResetJourney" class="text-[10px] text-slate-400 hover:text-red-500 font-bold flex items-center gap-0.5 px-2 py-1 rounded-md bg-slate-100 hover:bg-red-50 transition-colors">
+              <span class="material-symbols-outlined text-[12px]">restart_alt</span>
+              <span>방문 초기화</span>
+            </button>
+          </div>
+
+          <!-- Cumulative Progress Bar -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-slate-700" id="journeyProgressLabel">총 0개 경유지 중 0곳 방문 완료</span>
+              <span class="font-black text-emerald-700 text-xs" id="journeyProgressPct">0%</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div id="journeyProgressBar" class="bg-gradient-to-r from-teal-600 to-emerald-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Visual Stepper Chain (Horizontal Scrollable) -->
+          <div class="flex items-center gap-1.5 overflow-x-auto py-1 px-0.5 text-[11px] border-y border-slate-100" id="journeyChainList">
+            <!-- Dynamic Stepper Badges Populated via JS -->
+          </div>
+
+          <!-- Dynamic Context Insight Banner -->
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-2.5">
+            <span class="material-symbols-outlined text-teal-700 text-[20px] shrink-0 mt-0.5 animate-pulse">navigation</span>
+            <div class="flex flex-col text-xs text-slate-700 leading-snug">
+              <span class="font-black text-slate-900 text-xs" id="journeyCurrentAnchor">📍 첫 출발 대기: 대전 자택 (우리집)</span>
+              <span class="text-slate-600 text-[11px] mt-0.5 leading-tight" id="journeyNextAdvice">각 경유지 카드의 [✔ 방문 완료]를 누르면 지나온 자리를 기억하고 남은 전체 동선 및 대전 복귀를 연속적으로 안내합니다.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Sticky Day Tabs -->
+        <div class="sticky top-28 z-40 flex items-center gap-2 bg-surface/90 backdrop-blur-md py-1" id="dayTabsContainer">
+          <button type="button" class="day-filter-btn flex-1 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold shadow-xs active" data-day="1">Day 1</button>
+          <button type="button" class="day-filter-btn flex-1 py-2 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold" data-day="2">Day 2</button>
+          <button type="button" class="day-filter-btn flex-1 py-2 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold" data-day="3">Day 3</button>
+        </div>
+
+        <!-- Timeline Stream Cards Container -->
+        <div id="timelineCardsContainer" class="flex flex-col gap-3">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Export Action Bar -->
+        <div class="flex items-center gap-2 pt-2">
+          <button type="button" id="mPrintBtn" class="flex-1 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">print</span>
+            <span>A4 인쇄/PDF</span>
+          </button>
+          <button type="button" id="mCopyBtn" class="flex-1 py-3 rounded-xl bg-teal-50 border border-teal-200 text-teal-800 text-xs font-bold flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">content_copy</span>
+            <span>카톡 텍스트 복사</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- VIEW 5: VISIT KOREA AI Q&A (대한민국 구석구석 AI 비서) -->
+      <!-- ========================================================================= -->
+      <div id="viewQa" class="hidden flex flex-col p-4 gap-4">
+        
+        <!-- Subscreen Top Navigation (Back to Dashboard Button) -->
+        <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+          <button type="button" class="btn-back-dashboard flex items-center gap-1.5 text-xs font-black text-teal-950 bg-white border border-teal-200 px-3.5 py-2 rounded-xl hover:bg-teal-50 transition-colors shadow-xs active:scale-95">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            <span>← 메인 대시보드로 나가기</span>
+          </button>
+          <span class="text-xs font-black text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full">
+            AI 비서 서브화면
+          </span>
+        </div>
+
+        <!-- Header Banner -->
+        <div class="rounded-2xl bg-gradient-to-r from-teal-900 to-slate-900 p-4 text-white shadow-sm flex flex-col gap-1.5">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-teal-300">
+            <span class="material-symbols-outlined text-[16px]">verified</span>
+            <span>대한민국 구석구석 공식 연동</span>
+          </div>
+          <h3 class="text-lg font-black tracking-tight">한국관광공사 공식 AI 비서</h3>
+          <p class="text-xs text-slate-300">한국관광 100선, 열린관광지, 가을 힐링 명소를 공인 데이터 기반으로 답변합니다.</p>
+        </div>
+
+        <!-- Quick Chips -->
+        <div class="flex flex-wrap gap-1.5" id="mQaQuickChips">
+          <button type="button" class="qa-chip px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-teal-50 hover:text-teal-800">
+            추석 연휴에 부모님과 가기 좋은 단풍 명소
+          </button>
+          <button type="button" class="qa-chip px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-teal-50 hover:text-teal-800">
+            아이와 가기 좋은 무장애 열린관광지
+          </button>
+          <button type="button" class="qa-chip px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-teal-50 hover:text-teal-800">
+            가을 억새와 서해안 낙조 명소
+          </button>
+        </div>
+
+        <!-- Input Box -->
+        <form id="mQaForm" class="flex gap-2">
+          <input type="text" id="mQaInput" class="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-800 outline-none" placeholder="궁금한 여행지나 테마를 질문해 보세요">
+          <button type="submit" id="mQaSubmitBtn" class="px-4 bg-teal-800 text-white text-xs font-bold rounded-xl flex items-center justify-center">
+            질문
+          </button>
+        </form>
+
+        <!-- Response Area -->
+        <div id="mQaResults" class="flex flex-col gap-3">
+          <div class="p-8 text-center text-xs text-slate-400 border border-dashed border-slate-200 rounded-2xl">
+            질문하시면 한국관광공사 공식 데이터를 우선 탐색하여 추천 명소와 상세 링크를 제공합니다.
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- 3. iOS Style Bottom Floating Navigation Bar (5 Tabs) -->
+    <nav class="fixed bottom-0 max-w-[480px] w-full bg-white/95 backdrop-blur-xl border-t border-slate-200/80 px-2 py-2 z-50 flex items-center justify-around shadow-lg">
+      
+      <!-- 1. 대시보드 (Home) -->
+      <button type="button" class="nav-btn active flex flex-col items-center gap-0.5 text-slate-900" data-target="viewDashboard">
+        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+        <span class="text-[10px] font-black">대시보드</span>
+      </button>
+
+      <!-- 2. 교통안내 -->
+      <button type="button" class="nav-btn flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700" data-target="viewTraffic">
+        <span class="material-symbols-outlined text-[20px]">traffic</span>
+        <span class="text-[10px] font-bold">교통안내</span>
+      </button>
+
+      <!-- 3. 숙박·식사 -->
+      <button type="button" class="nav-btn flex flex-col items-center gap-0.5 text-amber-800 hover:text-amber-900 relative" data-target="viewStayDining">
+        <span class="material-symbols-outlined text-[20px] text-amber-600">restaurant_menu</span>
+        <span class="text-[10px] font-black text-amber-800">숙박·식사</span>
+        <span class="absolute -top-1 right-0.5 px-1 py-0.1 bg-red-600 text-[8px] font-black text-white rounded-full leading-none">KTO</span>
+      </button>
+
+      <!-- 4. 3일 일정 -->
+      <button type="button" class="nav-btn flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700" data-target="viewItinerary">
+        <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+        <span class="text-[10px] font-bold">3일 일정</span>
+      </button>
+
+      <!-- 5. AI 비서 -->
+      <button type="button" class="nav-btn flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700" data-target="viewQa">
+        <span class="material-symbols-outlined text-[20px]">forum</span>
+        <span class="text-[10px] font-bold">AI 비서</span>
+      </button>
+
+    </nav>
+
+    <!-- 여행 시즌 & 테마 빠른 변경 모달 -->
+    <div id="modalSeasonTheme" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+      <div class="w-full max-w-[440px] bg-white rounded-t-3xl sm:rounded-3xl p-5 flex flex-col gap-4 shadow-2xl animate-in slide-in-from-bottom duration-200">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-amber-600 text-[22px]">tune</span>
+            <h3 class="text-base font-extrabold text-slate-900">여행 시즌 & 테마 빠른 변경</h3>
+          </div>
+          <button type="button" id="btnCloseSeasonModal" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center cursor-pointer">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-500">원하시는 시즌 또는 특별 테마를 선택하시면 상단 뱃지와 추천 코스가 즉시 맞춤 갱신됩니다.</p>
+
+        <div class="grid grid-cols-2 gap-2" id="seasonThemeGrid">
+          <button type="button" data-season="가을" data-badge="추석 연휴 특수" class="btn-season-opt p-3 rounded-2xl border-2 border-amber-500 bg-amber-50/50 text-left flex flex-col gap-1 transition-all cursor-pointer">
+            <span class="text-base">🌕</span>
+            <span class="text-xs font-black text-slate-900">추석 연휴 특수</span>
+            <span class="text-[10px] text-slate-500">명절 정체 회피 & 대전 특화</span>
+          </button>
+          <button type="button" data-season="가을" data-badge="가을 단풍 & 억새" class="btn-season-opt p-3 rounded-2xl border border-slate-200 hover:border-slate-400 text-left flex flex-col gap-1 transition-all cursor-pointer">
+            <span class="text-base">🍁</span>
+            <span class="text-xs font-black text-slate-900">가을 단풍 & 억새</span>
+            <span class="text-[10px] text-slate-500">대청호·속리산 힐링</span>
+          </button>
+          <button type="button" data-season="가을" data-badge="서해 대하 & 꽃게" class="btn-season-opt p-3 rounded-2xl border border-slate-200 hover:border-slate-400 text-left flex flex-col gap-1 transition-all cursor-pointer">
+            <span class="text-base">🦐</span>
+            <span class="text-xs font-black text-slate-900">서해 대하 & 꽃게</span>
+            <span class="text-[10px] text-slate-500">보령·서천 제철 식도락</span>
+          </button>
+          <button type="button" data-season="봄" data-badge="봄꽃 낭만 나들이" class="btn-season-opt p-3 rounded-2xl border border-slate-200 hover:border-slate-400 text-left flex flex-col gap-1 transition-all cursor-pointer">
+            <span class="text-base">🌸</span>
+            <span class="text-xs font-black text-slate-900">봄꽃 낭만 나들이</span>
+            <span class="text-[10px] text-slate-500">벚꽃·수목원 산책</span>
+          </button>
+          <button type="button" data-season="여름" data-badge="여름 바캉스 & 바다" class="btn-season-opt p-3 rounded-2xl border border-slate-200 hover:border-slate-400 text-left flex flex-col gap-1 transition-all cursor-pointer">
+            <span class="text-base">🌊</span>
+            <span class="text-xs font-black text-slate-900">여름 바캉스 & 바다</span>
+            <span class="text-[10px] text-slate-500">동해·서해 오션 힐링</span>
+          </button>
+          <button type="button" data-season="겨울" data-badge="겨울 설경 & 온천" class="btn-season-opt p-3 rounded-2xl border border-slate-200 hover:border-slate-400 text-left flex flex-col gap-1 transition-all cursor-pointer">
+            <span class="text-base">❄️</span>
+            <span class="text-xs font-black text-slate-900">겨울 설경 & 온천</span>
+            <span class="text-[10px] text-slate-500">유성·수안보 온천 휴식</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app_stitch.js"></script>
+</body>
+</html>

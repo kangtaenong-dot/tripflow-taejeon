@@ -1,0 +1,26 @@
+{
+  "name": "mytrip-copilot",
+  "version": "1.0.0",
+  "description": "나만의 맞춤형 대한민국 여행 가이드 AI 에이전트 플랫폼",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "keywords": [
+    "travel",
+    "korea",
+    "ai-agent",
+    "trip-planner"
+  ],
+  "author": "Antigravity Pair",
+  "license": "MIT"
+}

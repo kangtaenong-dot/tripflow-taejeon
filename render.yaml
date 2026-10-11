@@ -1,0 +1,16 @@
+# Render Blueprint Specification
+# Reference: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: tripflow-korea
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/status
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
